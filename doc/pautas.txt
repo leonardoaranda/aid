@@ -1,0 +1,14 @@
+Trabajo Final AID – 2016
+
+Pautas:
+El trabajo final de AID debe reflejar que el alumno ha logrado integrar a una práctica profesional los contenidos desarrollados en la asignatura.
+El trabajo se presentará en forma oral mediante una exposición que puede ser orientada por un documento proyectado. La exposición tendrá una extensión de 20 minutos. Habrá una fecha cada 45 días hasta febrero de 2017 donde vencerá el plazo de entrega.
+También se adjuntará una copia electrónica a los docentes y una copia en papel que quedará en la Maestría como documento de referencia.
+El esquema general del trabajo debe contener:
+1- Introducción: donde se explica la problemática a resolver y los objetivos.
+2- Descripción de la base de datos: haciendo alusión a las variables que se considerarán, explicitando el rol que ocuparán en la aplicación de las técnicas
+3- Características de la base: deberá contener al menos 1000 registros y diez variables.
+4- Aplicación de técnicas:  que debe incluir un pequeño párrafo de por qué esas técnicas y alguna salida gráfica, de cada una, sin sobreabundar!!!.Se deberá evidenciar el dominio de al menos tres técnicas diferentes.
+5- Software: Versión y breve justificación de su elección. Puede utilizarse más de uno para las técnicas a utilizarse.
+6- Discusión y Conclusiones: que pueden hacer referencia a la pertinencia o limitaciones de alcance del análisis realizado, futuras mejoras del mismo y sobre todo respuestas al problema planteado.
+7- Referencias Bibliográficas: incluir las utilizadas y sitios de internet si se han aprovechado.

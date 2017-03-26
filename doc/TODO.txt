@@ -1,0 +1,5 @@
+# Exploración gráfica
+# Test de hipótesis en función de alguna de las variables más relevantes
+# Componentes principales
+# Clustering
+# Discriminante

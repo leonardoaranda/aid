@@ -1,0 +1,107 @@
+---
+title: "Explorando sitios de comercio electrónico"
+subtitle: "Final AID"
+author: "Leonardo Aranda"
+output: beamer_presentation
+---
+
+```{r, echo=FALSE, include=FALSE}
+setwd("../")
+source("src/main.R")
+```
+
+## Introducción
+
+* Crecimiento sostenido del comercio electrónico
+* ¿Qué características tiene un sitio de elevado tráfico?
+* Estimaciones de tráfico: Alexa + SimilarWeb.
+
+## Variables
+
+| Variable          |                   Descripción                   |
+|-------------------|:-----------------------------------------------:|
+| url               | Dirección del sitio web                         |
+| position          | Pertenece al Top 50.000 mundial                 |
+| bounce            | Porcentaje de visitas con una sola página vista |
+| ppv               | Páginas vistas por visita                       |
+| time              | Tiempo promedio de la visita                    |
+| paid_search       | Tráfico pago                                    |
+| traffic_direct    | Tráfico directo                                 |
+| traffic_display   | Tráfico de redes de publicidad                  |
+| traffic_search    | Tráfico de buscadores                           |
+| traffic_mail      | Tráfico de correo electrónico                   |
+| traffic_social    | Tráfico de redes sociales                       |
+| traffic_referrals | Tráfico referido desde otras páginas            |
+
+## Vector de medias
+
+```{r,echo=FALSE}
+tables.means
+```
+
+## Diferencias según el tiempo de visita
+
+```{r, echo=FALSE}
+tables.shapiro
+```
+
+- $H_0$: No hay diferencias significativas. Los grupos pertenecen a la misma distribución.
+- $H_1$: Existen diferencias significativas entre los grupos.
+
+```{r,  echo=FALSE}
+tables.wilcox
+```
+
+
+## Componentes principales - Scree Plot
+
+* Tres componentes explican el 60% de la variabilidad.
+
+```{r, echo=FALSE}
+plots.scree
+```
+
+
+## Componentes principales - Componente 1
+
+* Nivel de interacción
+
+```{r, echo=FALSE}
+plots.pc1
+```
+
+## Componentes principales - Componente 2
+
+* Conocimiento de marca
+
+```{r, echo=FALSE}
+plots.pc2
+```
+
+## Componentes principales - Componente 3
+
+* Tráfico pago
+
+```{r, echo=FALSE}
+plots.pc3
+```
+
+## Componentes principales - Biplot
+
+* Agrupamiento basado en el nivel de tráfico
+
+```{r fig.align="center", echo=FALSE}
+plots.biplot
+```
+
+## Análisis discriminante
+
+## Software
+
+* Python + Jupyter: Preparación de datos.
+* Rstudio: Análisis y documentación.
+* GitHub: Almacenamiento y versionado del código.
+
+## Conclusiones
+
+* Diferencias significativas según el nivel de tráfico
