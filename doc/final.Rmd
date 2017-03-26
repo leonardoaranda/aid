@@ -14,6 +14,7 @@ output:
 ---
 
 ```{r, echo=FALSE, include=FALSE}
+set.seed(83089)
 setwd("../")
 source("src/main.R")
 ```
@@ -43,7 +44,7 @@ Los datos del presente análisis se basan en el ranking de Alexa.com junto con i
 | Variable          |                   Descripción                   |
 |-------------------|:-----------------------------------------------:|
 | url               | Dirección del sitio web                         |
-| position          | Pertenece al Top 50.000 mundial                 |
+| position          | 1 = Top 50.000 mundial, 0 = No es TOP 50.000    |
 | bounce            | Porcentaje de visitas con una sola página vista |
 | ppv               | Páginas vistas por visita                       |
 | time              | Tiempo promedio de la visita                    |
@@ -109,6 +110,8 @@ tables.time
 
 El p-valor obtenido rechaza la hipótesis nula de normalidad.
 
+\newpage
+
 ### Transformación Box-Cox
 
 Podemos intentar realizar transformaciones Box-Cox sobre la variable de estudio para corregir la falta de normalidad. Luego de buscar varios parámetros lambda, se obtiene la siguiente mejora:
@@ -118,7 +121,7 @@ plots.boxcox
 boxcox
 ```
 
-Se obtienen algunas mejoras pero se continúa rechazando la hipótesis nula de normalidad, por lo que procederemos a realizar un test no paramétrico para verificar diferencias entre las distribuciones.
+Se obtienen algunas diferencias pero se continúa rechazando la hipótesis nula de normalidad, por lo que procederemos a realizar un test no paramétrico para verificar diferencias entre las distribuciones.
 
 ### Prueba de Mann-Whitney-Wilcoxon
 
@@ -155,6 +158,8 @@ plots.scree
 
 El gráfico nos da la pauta de que si bien las primeras componentes capturan una buena porción de la variabilidad, las variables no están altamente correlacionadas, por lo que para obtener un porcentaje alto de explicación de los datos nos vemos obligados a seleccionar al menos 4 variables siguiendo el criterio de Kaiser. Para que el análisis se pueda interpretar mejor, continuaremos con 3 componentes, con los cuales explicamos aproximadamente el 60% de la variabilidad de los datos.
 
+### Análisis de las componentes
+
 ```{r fig.align="center", echo=FALSE}
 plots.pc1
 ```
@@ -173,6 +178,8 @@ plots.pc3
 
 En cuanto la componente #3 está relacionada con el impacto que tienen las fuentes de tráfico pago en los sitios.
 
+### Biplot
+
 ```{r fig.align="center", echo=FALSE}
 plots.biplot
 ```
@@ -181,6 +188,10 @@ Al graficar las dos primeras componentes en un biplot y asignándole a cada siti
 
 * Correlación positiva entre el tráfico directo y el tráfico referido.
 * Correlación negativa entre la tasa de rebote y las páginas vistas.
+
+La componente 1 posee un peso importante sobre el tráfico directo y el tráfico referido. En la WWW los sitios se suelen clasificar como Hub o Authority. Un sitio es un Authority si está siendo linkeado desde otros sitios, y por otro lado, un sitio es un Hub si generalmente su comportamiento es linkear hacia otros sitios. En el Biplot estamos observando que los sitios con mayor tráfico proyectan sobre valores positivos de la componente 1, que ademaś de tener altos niveles de actividad, sus fuentes de tráfico guardan relación con los de Authority.
+
+Sobre el siguiente gráfico se representan las 3 primeras componentes y se puede apreciar con mayor detalle la diferencia en las proyecciones de ambos grupos.
 
 ```{r fig.height = 4, fig.width = 5,fig.align="center", echo=FALSE}
 plots.3d
@@ -215,7 +226,28 @@ No parecerían existir grupos claramente identificados. Sin embargo, si se reali
 tables.cluster
 ```
 
-En base al agrupamiento obtenido por k-means se visualiza que en el cluster 4 hay una cantidad considerable de sitios con bajo tráfico, y por otro lado, en el grupo 3, es donde se concentran la mayor cantidad de sitios con elevado tráfico. Podríamos suponer que dentro del grupo 3 se encuentran los sitios con mejor desempeño en cuanto al nivel de interacción y calidad de las fuentes de tráfico, en donde dicho comportamiento es independiente a la cantidad de visitas que reciben. Esto es una nueva hipótesis para explorar.
+En base al agrupamiento obtenido por k-means se visualiza que en el grupo 3 es donde se concentran la mayor cantidad de sitios con elevado tráfico. Podríamos suponer que dentro del grupo 3 se encuentran los sitios con mejor desempeño en cuanto al nivel de interacción y calidad de las fuentes de tráfico, en donde dicho comportamiento es independiente a la cantidad de visitas que reciben. Esto es una hipótesis para explorar y que podemos hacer una primera aproximación mirando el vector de medias de cada uno de los grupos:
+
+
+
+```{r, echo=FALSE}
+as.data.frame(t(aggregate(df.num.nos,list(df$cluster),mean)))
+```
+
+A primera vista el cluster 3 muestra mejores valores para las variables analizadas:
+
+* Bajo nivel de rebote
+* Elevado tiempo de visita
+* El tráfico directo es importante.
+
+Y por el contrario, el cluster 4 agrupa sitios con resultados pobres desde el punto de vista de la interacción de los usuarios con el sitio.
+
+El agrupamiento por k-means nos brinda una separación interesante de sitios de acuerdo a su comportamiento. Para facilitar la interpretación podríamos asignarles un nombre a cada grupo:
+
+* Cluster 1: Sitios con bajo nivel de interacción.
+* Cluster 2: Sitios con tráfico pago.
+* Cluster 3: Sitios con alto nivel de interacción.
+* Cluster 4: Sitios con acciones en motores de búsqueda.
 
 ## Análisis discriminante
 
@@ -229,25 +261,32 @@ Para realizar el modelo, se separó el conjunto de datos en entrenamiento y test
 tables.matrix
 ```
 
-Si bien tenemos algo de capacidad para clasificar observaciones, los resultados podrían ser mejores. Al visualizar los scores obtenidos por la función discriminante en un boxplot se puede comprender mejor que el modelo está logrando identificar los grupos en cierta medida.
+Si bien tenemos algo de capacidad para clasificar observaciones, los resultados podrían ser mejores. Al visualizar la distribución de las puntuaciones obtenidas por la función discriminante se puede comprender mejor que el modelo está logrando identificar los grupos con un desempeño medianamente aceptable.
 
 ```{r fig.align="center",fig.height = 3, fig.width = 4, echo=FALSE}
 plots.qda
 ```
 
+\newpage
 
 # Software
 
-Para la preparación de los datos de desarrollaron algunos scripts en Python trabajando con notebooks interactivos en Jupyter. En cuanto al análisis de los datos se utilizó R mediante la aplicación RStudio, tanto para gestionar el proyecto, como para redactar la presente documentación. El código siempre se mantuvo actualizado en un repositorio del servicio GitHub.
+Para la preparación de los datos de desarrollaron algunos scripts en Python trabajando con notebooks interactivos en Jupyter por la necesidad de procesamiento y flexibilidad. En cuanto al análisis de los datos se utilizó R mediante la aplicación RStudio, tanto para gestionar el proyecto, como para redactar la presente documentación. El código siempre se mantuvo actualizado en un repositorio del servicio GitHub.
 
 # Conclusiones
 
-Luego del análisis de las variables, se puede concluir que existen diferencias significativas entre sitios con poco y elevado tráfico, tanto desde el punto de vista del comportamiento de parte de los usuarios, como así también en cuanto a medios de generación de tráfico. Los sitios con elevado tráfico poseen un mayor promedio de Tiempo de Visita. Además de ello, se ha podido observar con componentes principales, que los sitios con elevado tráfico poseen valores altos en la primer componente, que representa el nivel de interacción.
+Luego del análisis de las variables, se puede concluir que existen diferencias significativas entre sitios con poco y elevado tráfico, tanto desde el punto de vista del comportamiento de parte de los usuarios, como así también en cuanto a medios de generación de tráfico.
 
-Sin embargo las variables con las que se trabajó no logran tener un alto nivel explicativo de la variable respuesta *position*. Hay que tener en cuenta que los datos son obtenidos en base a estimaciones e inferencias, y una posible interpretación de esto es que se esté introduciendo ruido que suavicen las diferencias.
+Los sitios con elevado tráfico poseen un mayor promedio de tiempo de visita. Además de ello, se ha podido observar con componentes principales, que los sitios con elevado tráfico poseen valores altos proyectados sobre la primer componente, que representa el nivel de interacción y se asemejan a la definición de un sitio web clasificado como Authority de acuerdo a las fuentes de tráfico.
+
+Al realizar el agrupamiento de los sitios utilizando todas las variables del conjunto de datos, se pudieron generar cuatro grupos que tienen características claramente definidas.
+
+Mediante el análisis discriminante cuadrático es posible clasificar con un desempeño medianamente aceptable a los sitios de acuerdo a su nivel de tráfico y posicionamiento global. Esto se basa en las diferencias significativas que existen en los vectores de medias para cada grupo.
+
+Las variables con las que se trabajó no logran tener un alto nivel explicativo de la variable respuesta *position*. Hay que tener en cuenta que los datos son obtenidos en base a estimaciones, y una posible interpretación de esto es que se esté introduciendo algo de ruido que suavicen las diferencias.
 
 # Bibliografía
 
-* Biblio 1
-* Biblio 2
-* Biblio 3
+* Box-Cox Transformations: An Overview. Department of Statistics, University of Connecticut.
+* Introduction to Information Retrieval. Cambridge University Press.
+* Hubs and Authorities on the Internet. The Mathematics of Web Search.

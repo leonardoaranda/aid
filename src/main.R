@@ -14,6 +14,8 @@ library(forecast)
 library(corrplot)
 library(RColorBrewer)
 
+set.seed(83089)
+
 par(ps = 8, cex = 1, cex.main = 1)
 
 df <- read.csv("data/sites.csv",row.names=16)
@@ -87,6 +89,7 @@ dev.off()
 
 df.num.pca <- prcomp(df.num)
 
+
 plots.scree %<a-% screeplot(df.num.pca,type="lines",main="Scree Plot",cex.main=0.8,cex.axis=0.8,cex.lab=0.8)
 
 comp1 <- df.num.pca$rotation[,1]
@@ -121,12 +124,13 @@ plot(as.dendrogram(hclust(df.dist,method="average")),main="Clustering jerárquic
 df$cluster <- as.factor(kmeans(df.num,centers=4)$cluster)
 
 
-plots.biplot <- ggbiplot(df.num.pca,groups=df$position,alpha=0.1)+ geom_point(aes(colour=df$position),size=3,alpha=0.1) + scale_color_manual(values=cc) + labs(title="Position sobre componentes principales") + xlim(c(-5,5))  + ylim(c(-7,7)) + theme(panel.background = element_blank())
+plots.biplot <- ggbiplot(df.num.pca,groups=df$position,alpha=0.1) + theme_grey(base_size = 8) + geom_point(aes(colour=df$position),size=3,alpha=0.1) + scale_color_manual(values=cc) + labs(title="Position sobre componentes principales") + xlim(c(-5,5))  + ylim(c(-7,7)) + theme(panel.background = element_blank())
 
-plots.biplot2 <- ggbiplot(df.num.pca,groups=df$cluster)+ geom_point(aes(colour=df$cluster),size=3,alpha=0.3) + labs(title="K-means sobre componentes principales") + xlim(c(-5,5))  + ylim(c(-7,7)) + theme(panel.background = element_blank())
+plots.biplot2 <- ggbiplot(df.num.pca,groups=df$cluster) + theme_grey(base_size = 8) + geom_point(aes(colour=df$cluster),size=3,alpha=0.3) + labs(title="K-means sobre componentes principales") + xlim(c(-5,5))  + ylim(c(-7,7)) + theme(panel.background = element_blank())
 
 
-tables.cluster <- table(df$cluster,df$position)
+tables.cluster <- as.data.frame.matrix(table(df$cluster,df$position))
+tables.cluster <- cbind(cluster=c(1,2,3,4),tables.cluster)
 
 df.num$position <- df$position
 
@@ -135,7 +139,6 @@ plots.3d %<a-% scatterplot3d(df$pca1,df$pca2,df$pca3,angle=100,type="h",color=cc
 # Análisis discriminante cuadrático
 
 smp_size <- floor(0.75 * nrow(df.num))
-set.seed(123)
 train_ind <- sample(seq_len(nrow(df.num)), size = smp_size)
 train <- df.num[train_ind, ]
 test <- df.num[-train_ind, ]
@@ -150,4 +153,4 @@ test$predicted <- prediction$class
 
 tables.matrix <- confusionMatrix(test$predicted,test$position,positive="1")
 
-plots.qda <- ggplot(test,aes(x=score,colour=position,fill=position)) + geom_density(alpha=0.4) + theme(panel.background = element_blank(),axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank()) +labs(title="Puntuaciones discriminantes")
+plots.qda <- ggplot(test,aes(x=score,colour=position,fill=position))+ theme_grey(base_size = 8) + geom_density(alpha=0.4) + theme(panel.background = element_blank(),axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank()) +labs(title="Puntuaciones discriminantes")
