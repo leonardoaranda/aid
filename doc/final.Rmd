@@ -72,6 +72,12 @@ Las variables fueron obtenidas directamente desde la fuente de datos. La variabl
 ```{r,echo=FALSE}
 as.data.frame(t(do.call(cbind, lapply(df.num.nos, summary))))
 ```
+El conjunto de datos cuenta con 1928 observaciones, que se distribuyen respecto a la variable *position* de la siguiente manera:
+```{r, echo=FALSE}
+dff <- as.data.frame(table(df$position))
+names(dff) <- c("position","cantidad")
+dff
+```
 
 
 # Análisis
