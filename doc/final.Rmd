@@ -1,6 +1,6 @@
 ---
 title: "Explorando sitios de comercio electrónico"
-subtitle: "Final AID"
+subtitle: "Análisis Inteligente de Datos"
 author: "Leonardo Aranda"
 lang: "es"
 fontsize: 11pt
@@ -8,10 +8,21 @@ output:
   pdf_document:
     fig_width: 5
     fig_height: 4
-    toc: true
-    toc_depth: 3
+    #toc: true
+    #toc_depth: 3
     df_print: kable
 ---
+\centering
+
+
+```{r fig.align="center",out.width = "234px",out.height = "70px",echo=FALSE}
+knitr::include_graphics("../fig/logo.png")
+```
+
+\raggedright
+\clearpage
+\tableofcontents
+
 
 ```{r, echo=FALSE, include=FALSE}
 set.seed(83089)
@@ -44,7 +55,7 @@ Los datos del presente análisis se basan en el ranking de Alexa.com junto con i
 | Variable          |                   Descripción                   |
 |-------------------|:-----------------------------------------------:|
 | url               | Dirección del sitio web                         |
-| position          | 1 = Top 50.000 mundial, 0 = No es TOP 50.000    |
+| position          | 1 = Top 50.000 mundial, 0 = No es Top 50.000    |
 | bounce            | Porcentaje de visitas con una sola página vista |
 | ppv               | Páginas vistas por visita                       |
 | time              | Tiempo promedio de la visita                    |
@@ -266,6 +277,8 @@ Si bien tenemos algo de capacidad para clasificar observaciones, los resultados 
 ```{r fig.align="center",fig.height = 3, fig.width = 4, echo=FALSE}
 plots.qda
 ```
+
+Nuestro modelo resultante del análisis discriminante cuadrático puede ser empleado para diagnosticar un sitio y comprender si sus características se asemejan a las de los mejores sitios webs a nivel global.
 
 \newpage
 
