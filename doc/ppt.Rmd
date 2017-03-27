@@ -2,7 +2,10 @@
 title: "Explorando sitios de comercio electrónico"
 subtitle: "Final AID"
 author: "Leonardo Aranda"
-output: beamer_presentation
+output: 
+  beamer_presentation:
+    df_print: kable
+
 ---
 
 ```{r, echo=FALSE, include=FALSE}
@@ -36,20 +39,41 @@ source("src/main.R")
 ## Vector de medias
 
 ```{r,echo=FALSE}
-tables.means
+as.data.frame(tables.means)
 ```
 
-## Diferencias según el tiempo de visita
 
-```{r, echo=FALSE}
-tables.shapiro
+## Tiempo de visita - Distribución
+
+```{r fig.align="center", echo=FALSE}
+plots.timehist
 ```
 
-- $H_0$: No hay diferencias significativas. Los grupos pertenecen a la misma distribución.
-- $H_1$: Existen diferencias significativas entre los grupos.
+## Tiempo de visita - Normalidad
+
+* Prueba de Shapiro-Wilk
+```{r fig.align="center", echo=FALSE}
+tables.time
+```
+
+* Transformación de Box-Cox
+```{r fig.align="center", echo=FALSE}
+boxcox
+```
+
+## Tiempo de visita - Prueba de Mann-Whitney-Wilcoxon
+
+- $H_0$: Los grupos pertenecen a la misma distribución.
+- $H_1$: Existen diferencias significativas en la distribución.
 
 ```{r,  echo=FALSE}
 tables.wilcox
+```
+
+## Matriz de correlación
+
+```{r fig.align="center",out.width = "250px",out.height = "250px",echo=FALSE}
+knitr::include_graphics("../fig/corr.png")
 ```
 
 
@@ -94,7 +118,40 @@ plots.pc3
 plots.biplot
 ```
 
-## Análisis discriminante
+## Clustering - Jerárquico
+
+```{r fig.align="center",out.width = "200px",out.height = "200px",echo=FALSE}
+knitr::include_graphics("../fig/dend_edit.png")
+```
+
+
+## Clustering - K-means
+
+```{r fig.align="center", echo=FALSE }
+plots.biplot2
+```
+
+## Clustering - Grupos identificados
+
+```{r, echo=FALSE}
+as.data.frame(t(aggregate(df.num.nos,list(df$cluster),mean)))
+```
+
+## Análisis discriminante - Resumen
+
+* No se satisfacen supuestos de normalidad y homocedasticidad
+* Análisis discriminante cuadrático
+
+```{r, echo=FALSE}
+tables.matrix
+```
+
+## Análisis discriminiate - Puntuaciones
+
+```{r fig.align="center",fig.height = 3, fig.width = 4, echo=FALSE}
+plots.qda
+```
+
 
 ## Software
 
