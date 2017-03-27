@@ -89,6 +89,7 @@ plots.scree
 ## Componentes principales - Componente 1
 
 * Nivel de interacción
+* Componente de forma
 
 ```{r, echo=FALSE}
 plots.pc1
@@ -97,6 +98,7 @@ plots.pc1
 ## Componentes principales - Componente 2
 
 * Conocimiento de marca
+* Componente de forma
 
 ```{r, echo=FALSE}
 plots.pc2
@@ -105,6 +107,7 @@ plots.pc2
 ## Componentes principales - Componente 3
 
 * Tráfico pago
+* Componente de forma
 
 ```{r, echo=FALSE}
 plots.pc3
@@ -113,6 +116,7 @@ plots.pc3
 ## Componentes principales - Biplot
 
 * Agrupamiento basado en el nivel de tráfico
+* Grupo 1 proyecta valores positivos sobre la primer componente
 
 ```{r fig.align="center", echo=FALSE}
 plots.biplot
@@ -131,7 +135,20 @@ knitr::include_graphics("../fig/dend_edit.png")
 plots.biplot2
 ```
 
+## Clustering - Grupos según posición global
+
+* Cluster 3 concentra a los primeros sitios del ranking.
+* Cluster 4 concentra a los últimos sitios del ranking.
+
+```{r, echo=FALSE}
+tables.cluster
+```
+
 ## Clustering - Grupos identificados
+
+* Cluster 3: Baja tasa de rebote, elevado tiempo de visita, elevado tráfico directo.
+* Cluster 4: Bajo nivel de páginas por visita, elevado tráfico pago.
+* ¿ Hub vs Authority ?
 
 ```{r, echo=FALSE}
 as.data.frame(t(aggregate(df.num.nos,list(df$cluster),mean)))
@@ -141,6 +158,7 @@ as.data.frame(t(aggregate(df.num.nos,list(df$cluster),mean)))
 
 * No se satisfacen supuestos de normalidad y homocedasticidad
 * Análisis discriminante cuadrático
+* 70% training / 30% testing.
 
 ```{r, echo=FALSE}
 tables.matrix
