@@ -126,9 +126,9 @@ plot(as.dendrogram(hclust(df.dist,method="average")),main="Clustering jerárquic
 df$cluster <- as.factor(kmeans(df.num,centers=4)$cluster)
 
 
-plots.biplot <- ggbiplot(df.num.pca,groups=df$position,alpha=0.1) + theme_grey(base_size = 8) + geom_point(aes(colour=df$position),size=3,alpha=0.1) + scale_color_manual(values=cc) + labs(title="Position sobre componentes principales") + xlim(c(-5,5))  + ylim(c(-7,7)) + theme(panel.background = element_blank())
+plots.biplot <- ggbiplot(df.num.pca,groups=df$position,alpha=0.1,varname.size=6) + theme_grey(base_size = 10) + geom_point(aes(colour=df$position),size=3,alpha=0.1) + scale_color_manual(values=cc) + labs(title="Position sobre componentes principales") + xlim(c(-5,5))  + ylim(c(-5,5)) + theme(panel.background = element_blank())
 
-plots.biplot2 <- ggbiplot(df.num.pca,groups=df$cluster) + theme_grey(base_size = 8) + geom_point(aes(colour=df$cluster),size=3,alpha=0.3) + labs(title="K-means sobre componentes principales") + xlim(c(-5,5))  + ylim(c(-7,7)) + theme(panel.background = element_blank())
+plots.biplot2 <- ggbiplot(df.num.pca,groups=df$cluster,alpha=0.01,varname.size=6) + theme_grey(base_size = 10) + geom_point(aes(colour=df$cluster),size=3,alpha=0.2) + labs(title="K-means sobre componentes principales") + xlim(c(-5,5))  + ylim(c(-5,5)) + theme(panel.background = element_blank())
 
 
 tables.cluster <- as.data.frame.matrix(table(df$cluster,df$position))

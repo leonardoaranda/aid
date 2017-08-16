@@ -138,7 +138,7 @@ plots.pc3
 * Grupo 1 tiene mayor Tiempo de Visita, tráfico Directo, Referido y desde Email.
 * Grupo 0 tiene mayor Bounce.
 
-```{r fig.align="center", echo=FALSE}
+```{r fig.align="center", echo=FALSE, warning=FALSE}
 plots.biplot
 ```
 
@@ -151,18 +151,18 @@ plots.biplot
 
 ## Clustering - K-means
 
-```{r fig.align="center", echo=FALSE }
+```{r fig.align="center", echo=FALSE, warning=FALSE }
 plots.biplot2
 ```
 
-## Clustering - Grupos según posición global
+<!-- ## Clustering - Grupos según posición global -->
 
-* Cluster 3 concentra a los primeros sitios del ranking.
-* Cluster 4 concentra a los últimos sitios del ranking.
+<!-- * Cluster 3 concentra a los primeros sitios del ranking. -->
+<!-- * Cluster 4 concentra a los últimos sitios del ranking. -->
 
-```{r, echo=FALSE}
-tables.cluster
-```
+<!-- ```{r, echo=FALSE} -->
+<!-- tables.cluster -->
+<!-- ``` -->
 
 ## Clustering - Grupos identificados
 
