@@ -13,6 +13,7 @@ library(caret)
 library(forecast)
 library(corrplot)
 library(RColorBrewer)
+library(gridExtra)
 
 set.seed(83089)
 
@@ -39,7 +40,8 @@ df.num.nos <- df[vars]
 # Exploración gráfica
 
 plots.pairs %<a-% pairs(df.num.nos,upper.panel = NULL,col=cc[as.numeric(df$position)],pch=20)
-tables.means <- t(aggregate(df.num.nos,list(df$position),mean))
+tables.means <- t(aggregate(df.num.nos,list(df$position),function(x) c(mean = round(mean(x, na.rm=TRUE), 2))))
+
 
 # Análisis de tiempo en página
 
@@ -151,6 +153,9 @@ test$score <- prediction$posterior[,2]
 test$predicted <- prediction$class
 
 
-tables.matrix <- confusionMatrix(test$predicted,test$position,positive="1")
+tables.matrix <- confusionMatrix(test$predicted,test$position,positive="1",mode="sens_spec")
+tables.matrix
+
+?confusionMatrix
 
 plots.qda <- ggplot(test,aes(x=score,colour=position,fill=position))+ theme_grey(base_size = 8) + geom_density(alpha=0.4) + theme(panel.background = element_blank(),axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank()) +labs(title="Puntuaciones discriminantes")

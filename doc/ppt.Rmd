@@ -1,11 +1,16 @@
 ---
+date: "Agosto, 2017"
 title: "Explorando sitios de comercio electrónico"
-subtitle: "Final AID"
+subtitle: "Análisis Inteligente de Datos"
 author: "Leonardo Aranda"
 output: 
   beamer_presentation:
+    includes:
+      in_header: header.tex
+    theme: "Rochester"
+    colortheme: "whale"
     df_print: kable
-
+fontsize: 8pt
 ---
 
 ```{r, echo=FALSE, include=FALSE}
@@ -15,16 +20,24 @@ source("src/main.R")
 
 ## Introducción
 
-* Crecimiento sostenido del comercio electrónico
-* ¿Qué características tiene un sitio de elevado tráfico?
-* Estimaciones de tráfico: Alexa + SimilarWeb.
+* Descubrir patrones en sitios de comercio electrónico con más visitas.
+* Datos de Alexa + SimilarWeb. Ejemplo de amazon.com:
+
+```{r fig.align="center",out.width = "250px",out.height = "250px",echo=FALSE}
+knitr::include_graphics("../fig/similarweb_sources.png")
+knitr::include_graphics("../fig/similarweb_behaviour.png")
+```
+
+
 
 ## Variables
 
+* Comportamiento de usuarios y fuentes de tráfico web.
+
 | Variable          |                   Descripción                   |
 |-------------------|:-----------------------------------------------:|
-| url               | Dirección del sitio web                         |
-| position          | Pertenece al Top 50.000 mundial                 |
+| url               | Dirección del sitio web (ID)                    |
+| position          | Pertenece o no al Top 50.000 mundial (Clase)    |
 | bounce            | Porcentaje de visitas con una sola página vista |
 | ppv               | Páginas vistas por visita                       |
 | time              | Tiempo promedio de la visita                    |
@@ -37,6 +50,9 @@ source("src/main.R")
 | traffic_referrals | Tráfico referido desde otras páginas            |
 
 ## Vector de medias
+
+* Diferencia en la media de los grupos
+* ¿ Son significativas ?
 
 ```{r,echo=FALSE}
 as.data.frame(tables.means)
@@ -72,7 +88,10 @@ tables.wilcox
 
 ## Matriz de correlación
 
-```{r fig.align="center",out.width = "250px",out.height = "250px",echo=FALSE}
+* Correlación negativa entre Search vs Referido y Directo.
+* Correlación positiva entre Directo y Tiempo de Visita.
+
+```{r fig.align="center",out.width = "200px",out.height = "200px",echo=FALSE}
 knitr::include_graphics("../fig/corr.png")
 ```
 
@@ -115,18 +134,19 @@ plots.pc3
 
 ## Componentes principales - Biplot
 
-* Agrupamiento basado en el nivel de tráfico
-* Grupo 1 proyecta valores positivos sobre la primer componente
+* Grupo 1 proyecta valores positivos sobre la primer componente.
+* Grupo 1 tiene mayor Tiempo de Visita, tráfico Directo, Referido y desde Email.
+* Grupo 0 tiene mayor Bounce.
 
 ```{r fig.align="center", echo=FALSE}
 plots.biplot
 ```
 
-## Clustering - Jerárquico
+<!-- ## Clustering - Jerárquico -->
 
-```{r fig.align="center",out.width = "200px",out.height = "200px",echo=FALSE}
-knitr::include_graphics("../fig/dend_edit.png")
-```
+<!-- ```{r fig.align="center",out.width = "200px",out.height = "200px",echo=FALSE} -->
+<!-- knitr::include_graphics("../fig/dend_edit.png") -->
+<!-- ``` -->
 
 
 ## Clustering - K-means
@@ -151,7 +171,7 @@ tables.cluster
 * ¿ Hub vs Authority ?
 
 ```{r, echo=FALSE}
-as.data.frame(t(aggregate(df.num.nos,list(df$cluster),mean)))
+as.data.frame(t(aggregate(df.num.nos,list(df$cluster),function(x) c(mean = round(mean(x, na.rm=TRUE), 2)))))
 ```
 
 ## Análisis discriminante - Resumen
@@ -160,11 +180,11 @@ as.data.frame(t(aggregate(df.num.nos,list(df$cluster),mean)))
 * Análisis discriminante cuadrático
 * 70% training / 30% testing.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE,size="scriptsize"}
 tables.matrix
 ```
 
-## Análisis discriminiate - Puntuaciones
+## Análisis discriminante - Puntuaciones
 
 ```{r fig.align="center",fig.height = 3, fig.width = 4, echo=FALSE}
 plots.qda
@@ -173,10 +193,14 @@ plots.qda
 
 ## Software
 
-* Python + Jupyter: Preparación de datos.
-* Rstudio: Análisis y documentación.
+* Python: Preparación de datos.
+* RStudio: Análisis y documentación.
 * GitHub: Almacenamiento y versionado del código.
 
 ## Conclusiones
 
-* Diferencias significativas según el nivel de tráfico
+* Los resultados permiten hacer un diagnóstico de los sitios de comercio electrónico.
+* El Tiempo de Visita es significativamente más elevado en sitios con mayor volumen de tráfico.
+* Sus principales fuentes de tráfico son Directo, Email y Referido.
+* Los sitios con poco nivel de tráfico presentan mayor Tasa de Rebote.
+* Para trabajos futuros, se podrían aplicar otros métodos que intenten mejorar el desempeño de clasificación del análisis discriminante.
