@@ -1,9 +1,9 @@
 ---
-date: "Agosto, 2017"
 title: "Explorando sitios de comercio electrónico"
 subtitle: "Análisis Inteligente de Datos"
 author: "Leonardo Aranda"
-output: 
+institute: "Maestría en Explotación de Datos y Descubrimiento del Conocimiento"
+output:
   beamer_presentation:
     includes:
       in_header: header.tex
