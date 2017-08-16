@@ -147,6 +147,8 @@ test <- df.num[-train_ind, ]
 
 model <- qda(position ~ ppv + bounce + time + traffic_mail + traffic_direct + traffic_display + traffic_social + traffic_social + traffic_referrals,data=train)
 
+table(df$position)
+
 prediction <- predict(model,test)
 
 test$score <- prediction$posterior[,2]
@@ -154,8 +156,5 @@ test$predicted <- prediction$class
 
 
 tables.matrix <- confusionMatrix(test$predicted,test$position,positive="1",mode="sens_spec")
-tables.matrix
-
-?confusionMatrix
 
 plots.qda <- ggplot(test,aes(x=score,colour=position,fill=position))+ theme_grey(base_size = 8) + geom_density(alpha=0.4) + theme(panel.background = element_blank(),axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank()) +labs(title="Puntuaciones discriminantes")

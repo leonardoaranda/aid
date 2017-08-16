@@ -33,6 +33,8 @@ knitr::include_graphics("../fig/similarweb_behaviour.png")
 ## Variables
 
 * Comportamiento de usuarios y fuentes de tráfico web.
+* 1928 sitios.
+* 403 sitios con position = 1, 1525 sitios con position = 0.
 
 | Variable          |                   Descripción                   |
 |-------------------|:-----------------------------------------------:|
@@ -151,6 +153,9 @@ plots.biplot
 
 ## Clustering - K-means
 
+* Cluster 3 agrupa a los sitios con mejor desempeño.
+* Cluster 4 agrupa a los sitios con peor desempeño.
+
 ```{r fig.align="center", echo=FALSE, warning=FALSE }
 plots.biplot2
 ```
@@ -180,8 +185,8 @@ as.data.frame(t(aggregate(df.num.nos,list(df$cluster),function(x) c(mean = round
 * Análisis discriminante cuadrático
 * 70% training / 30% testing.
 
-```{r, echo=FALSE,size="scriptsize"}
-tables.matrix
+```{r fig.align="center",out.width = "180px",out.height = "110px",echo=FALSE}
+knitr::include_graphics("../fig/accuracy.png")
 ```
 
 ## Análisis discriminante - Puntuaciones
